@@ -9,29 +9,23 @@ import com.vehicles.VehicleTracker.repository.OwnershipRepository;
 import com.vehicles.VehicleTracker.repository.PersonRepository;
 import com.vehicles.VehicleTracker.repository.VehicleRepository;
 import com.vehicles.VehicleTracker.repository.ViolationRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 
 @Component
+@AllArgsConstructor
 public class InitializeTestData implements CommandLineRunner {
 
     private final PersonRepository personRepository;
     private final VehicleRepository vehicleRepository;
     private final OwnershipRepository ownershipRepository;
     private final ViolationRepository violationRepository;
-
-    public InitializeTestData(PersonRepository personRepository,
-                              VehicleRepository vehicleRepository,
-                              OwnershipRepository ownershipRepository,
-                              ViolationRepository violationRepository) {
-        this.personRepository = personRepository;
-        this.vehicleRepository = vehicleRepository;
-        this.ownershipRepository = ownershipRepository;
-        this.violationRepository = violationRepository;
-    }
+    private static final Random random = new Random();
 
     @Override
     public void run(String... args) {
@@ -52,7 +46,9 @@ public class InitializeTestData implements CommandLineRunner {
         Ownership ownership = new Ownership();
         ownership.setPerson(person);
         ownership.setVehicle(vehicle);
-        ownership.setAcquisitionDate(LocalDateTime.of(2024, 12, 1, 0, 0));
+        ownership.setAcquisitionDate(LocalDateTime.of(2019, 12, 2, 0, 0));
+        ownership.setTerminationDate(ownership.getAcquisitionDate().plusMonths(1 + random.nextInt(12)));
+
         ownershipRepository.save(ownership);
 
         Violation violation1 = new Violation();

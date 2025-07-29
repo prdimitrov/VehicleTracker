@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface OwnershipRepository extends JpaRepository<Ownership, Long> {
-    List<Ownership> findByVehicleModelIgnoreCaseAndVehicleColorIgnoreCase(String model, String color);
+    List<Ownership> findByVehicleModelIgnoreCaseAndVehicleColorIgnoreCase(final String model,
+                                                                          final String color);
 }

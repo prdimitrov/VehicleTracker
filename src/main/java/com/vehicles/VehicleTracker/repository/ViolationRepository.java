@@ -11,11 +11,13 @@ import java.util.List;
 
 @Repository
 public interface ViolationRepository extends JpaRepository<Violation, Long> {
-    List<Violation> findAllByTimeStampBetween(LocalDateTime start, LocalDateTime end);
+    List<Violation> findAllByTimeStampBetween(final LocalDateTime start,
+                                              final LocalDateTime end);
 
     @Query("SELECT new com.vehicles.VehicleTracker.model.dto.ViolationCountByTypeDto(v.violationType, COUNT(v)) " +
             "FROM Violation v " +
             "WHERE v.timeStamp BETWEEN :start AND :end " +
             "GROUP BY v.violationType")
-    List<ViolationCountByTypeDto> countViolationsByTypeInPeriod(LocalDateTime start, LocalDateTime end);
+    List<ViolationCountByTypeDto> countViolationsByTypeInPeriod(final LocalDateTime start,
+                                                                final LocalDateTime end);
 }
