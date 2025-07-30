@@ -34,37 +34,76 @@ public class InitializeTestData implements CommandLineRunner {
         person.setAddress("Targovishte, Bulgaria");
         person.setEgn("5112072341");
         person.setGender("male");
-        personRepository.save(person);
+
+        Person secondPerson = new Person();
+        secondPerson.setName("Edin Gospodin");
+        secondPerson.setAddress("Targovishte, Bulgaria");
+        secondPerson.setEgn("9712102345");
+        secondPerson.setGender("male");
+        personRepository.saveAll(List.of(person, secondPerson));
 
         Vehicle vehicle = new Vehicle();
         vehicle.setPlateNumber("T9952AK");
-        vehicle.setModel("ferrari");
-        vehicle.setColor("червен");
+        vehicle.setModel("ford");
+        vehicle.setColor("сив");
         vehicle.setEngineCode("QJBB");
-        vehicleRepository.save(vehicle);
+
+        Vehicle secondVehicle = new Vehicle();
+        secondVehicle.setPlateNumber("T0641CT");
+        secondVehicle.setModel("ferrari");
+        secondVehicle.setColor("червен");
+        secondVehicle.setEngineCode("DW10TD");
+        vehicleRepository.saveAll(List.of(vehicle, secondVehicle));
 
         Ownership ownership = new Ownership();
         ownership.setPerson(person);
         ownership.setVehicle(vehicle);
-        ownership.setAcquisitionDate(LocalDateTime.of(2019, 12, 2, 0, 0));
-        ownership.setTerminationDate(ownership.getAcquisitionDate().plusMonths(1 + random.nextInt(12)));
+        ownership.setAcquisitionDate(LocalDateTime.of(2001, 12, 2, 14, 10));
+        ownership.setTerminationDate(ownership.getAcquisitionDate().plusYears(1 + random.nextInt(20)));
 
-        ownershipRepository.save(ownership);
+        Ownership secondOwnership = new Ownership();
+        secondOwnership.setPerson(person);
+        secondOwnership.setVehicle(secondVehicle);
+        secondOwnership.setAcquisitionDate(LocalDateTime.of(2001, 5, 3, 15, 25));
+        secondOwnership.setTerminationDate(ownership.getAcquisitionDate().plusYears(1 + random.nextInt(20)));
+        ownershipRepository.saveAll(List.of(ownership, secondOwnership));
 
-        Violation violation1 = new Violation();
-        violation1.setAct("T9234");
-        violation1.setViolationType(ViolationType.SPEEDING);
-        violation1.setTimeStamp(LocalDateTime.of(2024, 5, 10, 14, 0));
-        violation1.setOffender(person);
-        violation1.setVehicle(vehicle);
+        Ownership thirdOwnership = new Ownership();
+        thirdOwnership.setPerson(secondPerson);
+        thirdOwnership.setVehicle(secondVehicle);
+        thirdOwnership.setAcquisitionDate(LocalDateTime.of(2019, 12, 2, 0, 0));
+        thirdOwnership.setTerminationDate(ownership.getAcquisitionDate().plusYears(1 + random.nextInt(20)));
+        ownershipRepository.saveAll(List.of(ownership, secondOwnership, thirdOwnership));
 
-        Violation violation2 = new Violation();
-        violation2.setAct("ACT456");
-        violation2.setViolationType(ViolationType.NO_LICENSE);
-        violation2.setTimeStamp(LocalDateTime.of(2024, 7, 21, 11, 30));
-        violation2.setOffender(person);
-        violation2.setVehicle(vehicle);
+        Violation firstViolation = new Violation();
+        firstViolation.setAct("ACT91372");
+        firstViolation.setViolationType(ViolationType.SPEEDING);
+        firstViolation.setTimeStamp(LocalDateTime.of(2002, 5, 10, 14, 3,
+                23));
+        firstViolation.setOffender(person);
+        firstViolation.setVehicle(vehicle);
 
-        violationRepository.saveAll(List.of(violation1, violation2));
+        Violation secondViolation = new Violation();
+        secondViolation.setAct("ACT92372");
+        secondViolation.setViolationType(ViolationType.NO_LICENSE);
+        secondViolation.setTimeStamp(LocalDateTime.of(2002, 3, 21, 11, 25));
+        secondViolation.setOffender(person);
+        secondViolation.setVehicle(vehicle);
+
+        Violation thirdViolation = new Violation();
+        thirdViolation.setAct("ACT93372");
+        thirdViolation.setViolationType(ViolationType.NO_LICENSE);
+        thirdViolation.setTimeStamp(LocalDateTime.of(2023, 5, 21, 16, 13));
+        thirdViolation.setOffender(person);
+        thirdViolation.setVehicle(vehicle);
+
+        Violation fourthViolation = new Violation();
+        fourthViolation.setAct("ACT94372");
+        fourthViolation.setViolationType(ViolationType.NO_LICENSE);
+        fourthViolation.setTimeStamp(LocalDateTime.of(2002, 5, 21, 16, 13));
+        fourthViolation.setOffender(person);
+        fourthViolation.setVehicle(vehicle);
+
+        violationRepository.saveAll(List.of(firstViolation, secondViolation, thirdViolation, fourthViolation));
     }
 }

@@ -1,6 +1,7 @@
 package com.vehicles.VehicleTracker.service.impl;
 
 import com.vehicles.VehicleTracker.model.Ownership;
+import com.vehicles.VehicleTracker.model.Vehicle;
 import com.vehicles.VehicleTracker.model.dto.PersonDto;
 import com.vehicles.VehicleTracker.repository.OwnershipRepository;
 import com.vehicles.VehicleTracker.service.OwnershipService;
@@ -26,5 +27,10 @@ public class OwnershipServiceImpl implements OwnershipService {
                 .distinct()
                 .map(person -> modelMapper.map(person, PersonDto.class))
                 .toList();
+    }
+
+    @Override
+    public boolean hasOtherOwners(final Vehicle vehicle) {
+        return ownershipRepository.existsByVehicle(vehicle);
     }
 }
