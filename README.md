@@ -19,11 +19,11 @@ http://localhost:8080/api/violations/stats?year=2002
 http://localhost:8080/api/persons?egn=5112072341
 
 ## Database creation with test data
-### Create database
+* ### Create database
 CREATE DATABASE `vehicle_tracker`;
-### Use vehicle_tracker database
+* ### Use vehicle_tracker database
 USE `vehicle_tracker`;<br>
-### Create persons table
+* ### Create persons table
 CREATE TABLE person (<br>
     id BIGINT AUTO_INCREMENT PRIMARY KEY,<br>
     name VARCHAR(255) NOT NULL,<br>
@@ -31,7 +31,7 @@ CREATE TABLE person (<br>
     egn VARCHAR(255) NOT NULL,<br>
     gender VARCHAR(255) NOT NULL<br>
 );
-### Create vehicles table
+* ### Create vehicles table
 CREATE TABLE vehicle (<br>
     id BIGINT AUTO_INCREMENT PRIMARY KEY,<br>
     plate_number VARCHAR(20) UNIQUE NOT NULL,<br>
@@ -39,7 +39,7 @@ CREATE TABLE vehicle (<br>
     color VARCHAR(255) NOT NULL,<br>
     engine_code VARCHAR(255) UNIQUE NOT NULL<br>
 );
-### Create ownerships table
+* ### Create ownerships table
 CREATE TABLE ownership (<br>
     id BIGINT AUTO_INCREMENT PRIMARY KEY,<br>
     person_id BIGINT NOT NULL,<br>
@@ -49,7 +49,7 @@ CREATE TABLE ownership (<br>
     FOREIGN KEY (person_id) REFERENCES person(id) ON DELETE CASCADE,<br>
     FOREIGN KEY (vehicle_id) REFERENCES vehicle(id)<br>
 );
-### Create violations table
+* ### Create violations table
 CREATE TABLE violation (<br>
     id BIGINT AUTO_INCREMENT PRIMARY KEY,<br>
     act TEXT,<br>
@@ -65,23 +65,23 @@ CREATE TABLE violation (<br>
     FOREIGN KEY (person_id) REFERENCES person(id) ON DELETE CASCADE,<br>
     FOREIGN KEY (vehicle_id) REFERENCES vehicle(id)<br>
 );
-### Insert persons
+* ### Insert persons
 INSERT INTO person (name, address, egn, gender) VALUES<br>
     ('Petar Dimitrov', 'Targovishte, Bulgaria', '5112072341', 'male'),<br>
     ('Edin Gospodin', 'Targovishte, Bulgaria', '9712102345', 'male');
 
-### Insert vehicles
+* ### Insert vehicles
 INSERT INTO vehicle (plate_number, model, color, engine_code) VALUES<br>
     ('T9952AK', 'ford', 'сив', 'QJBB'),<br>
     ('T0641CT', 'ferrari', 'червен', 'DW10TD');<br>
 
-### Insert ownerships
+* ### Insert ownerships
 INSERT INTO ownership (person_id, vehicle_id, acquisition_date, termination_date) VALUES<br>
     (1, 1, '2001-12-02 14:10:00', DATE_ADD('2001-12-02 14:10:00', INTERVAL FLOOR(1 + RAND() * 20) YEAR)),<br>
     (1, 2, '2001-05-03 15:25:00', DATE_ADD('2001-05-03 15:25:00', INTERVAL FLOOR(1 + RAND() * 20) YEAR)),<br>
     (2, 2, '2019-12-02 00:00:00', DATE_ADD('2019-12-02 00:00:00', INTERVAL FLOOR(1 + RAND() * 20) YEAR));
 
-### Insert violations
+* ### Insert violations
 INSERT INTO violation (act, violation_type, time_stamp, person_id, vehicle_id) VALUES<br>
     ('ACT91372', 'SPEEDING', '2002-05-10 14:03:23', 1, 1),<br>
     ('ACT92372', 'NO_LICENSE', '2002-03-21 11:25:00', 1, 1),<br>
@@ -91,11 +91,7 @@ INSERT INTO violation (act, violation_type, time_stamp, person_id, vehicle_id) V
 ## Example queries for testing the database
 
 * ### Retrieve violations from 2002 with details
-SELECT <br>
-    v.act,<br>
-    v.violation_type,<br>
-    v.time_stamp,<br>
-    p.name as offender_name<br>
+SELECT v.act, v.violation_type, v.time_stamp, p.name as offender_name
 FROM violation v<br>
 JOIN person p ON v.person_id = p.id<br>
 WHERE YEAR(v.time_stamp) = 2002;<br>
