@@ -35,7 +35,7 @@ public class ViolationController {
     }
 
     @GetMapping("/owners")
-    public ResponseEntity<List<PersonDto>> getOwnersOfModelByColor(@RequestParam(name = MODEL) final String model,
+    public ResponseEntity<List<PersonDto>> getOwnersByModelAndColor(@RequestParam(name = MODEL) final String model,
                                                                    @RequestParam(name = COLOR) final String color) {
         return ResponseEntity.ok(ownershipService.findOwnersByModelAndColor(model, color));
     }
