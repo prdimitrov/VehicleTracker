@@ -16,22 +16,13 @@ public class PersonServiceImpl implements PersonService {
     private static final String PERSON_WITH_EGN_NOT_FOUND = "Person with EGN: {} not found!";
     private static final String TARGET = "{}";
     private final PersonRepository personRepository;
-    private final ViolationRepository violationRepository;
-    private final OwnershipRepository ownershipRepository;
 
     @Override
     @Transactional
     public String deletePersonByEgn(final String egn) {
         Person person = personRepository.findByEgn(egn)
                 .orElseThrow(() -> new IllegalArgumentException(PERSON_WITH_EGN_NOT_FOUND.replace(TARGET, egn)));
-        deletePersonWithViolationsAndOwnerships(person);
-
-        return SUCCESSFULLY_DELETED_PERSON_WITH_EGN.replace(TARGET, egn);
-    }
-
-    private void deletePersonWithViolationsAndOwnerships(final Person person) {
-        violationRepository.deleteAll(person.getViolations());
-        ownershipRepository.deleteAll(person.getOwnerships());
         personRepository.delete(person);
+        return SUCCESSFULLY_DELETED_PERSON_WITH_EGN.replace(TARGET, egn);
     }
 }

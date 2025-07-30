@@ -1,5 +1,6 @@
 package com.vehicles.VehicleTracker.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -28,8 +29,8 @@ public class Person extends BaseEntity {
     private String egn;
     @Column(nullable = false)
     private String gender;
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private List<Ownership> ownerships;
-    @OneToMany(mappedBy = "offender")
+    @OneToMany(mappedBy = "offender", cascade = CascadeType.ALL)
     private List<Violation> violations;
 }
